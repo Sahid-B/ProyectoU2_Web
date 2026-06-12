@@ -68,5 +68,5 @@ La base de datos contiene la siguiente distribución exacta:
 *(Nota: Ajustable según necesidades)*
 
 ## 👥 Cuentas de Acceso (Prueba)
-- **Administrador:** `Sahid3` / Contraseña: `TuContraseña123!` (o la configurada en tu registro).
+- **Administrador:** `Sahid3` / Contraseña: `Ejemplo` (o la configurada en tu registro).
 - **Cliente:** Puedes registrar una cuenta nueva en la plataforma.
