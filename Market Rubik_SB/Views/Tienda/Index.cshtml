@@ -1,0 +1,77 @@
+@model IEnumerable<MiniMarketApp.Models.Producto>
+@{
+    ViewData["Title"] = "Tienda";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <h2 class="text-primary fw-bold"><i class="bi bi-shop"></i> Catálogo de Productos</h2>
+        <div>
+            <a asp-action="Carrito" class="btn btn-outline-primary position-relative rounded-pill px-4">
+                <i class="bi bi-cart3"></i> Mi Carrito
+                @if (ViewBag.CarritoItems > 0)
+                {
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-badge">
+                        @ViewBag.CarritoItems
+                    </span>
+                }
+                else
+                {
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" id="cart-badge">
+                        0
+                    </span>
+                }
+            </a>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 bg-white product-card rounded-4 overflow-hidden" style="transition: transform 0.2s;">
+                    <div class="card-body text-center mt-3">
+                        <div class="mb-3">
+                            <i class="bi bi-box-seam text-secondary" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-bold text-dark mb-1">@item.Nombre</h5>
+                        <p class="card-text text-muted small mb-2">
+                            @(string.IsNullOrEmpty(item.Descripcion) ? "Excelente producto de calidad." : (item.Descripcion.Length > 40 ? item.Descripcion.Substring(0, 40) + "..." : item.Descripcion))
+                        </p>
+                        <h4 class="text-success fw-bold mb-0">@item.Precio.ToString("C")</h4>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-4 text-center">
+                        <button onclick="agregarAlCarrito(@item.Id)" class="btn btn-primary rounded-pill w-100 fw-bold shadow-sm">
+                            <i class="bi bi-cart-plus"></i> Añadir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function agregarAlCarrito(id) {
+            $.post('/Tienda/AgregarAlCarrito', { productoId: id }, function(data) {
+                if (data.success) {
+                    var badge = $('#cart-badge');
+                    badge.text(data.totalItems);
+                    badge.removeClass('d-none');
+                    
+                    // Pequeña animación visual
+                    badge.animate({fontSize: '1.2rem'}, 100).animate({fontSize: '0.75em'}, 100);
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+    </script>
+    <style>
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        }
+    </style>
+}

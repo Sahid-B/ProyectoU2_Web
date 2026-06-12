@@ -1,79 +1,72 @@
-# MiniMarket App - Integración de Arquitectura Multiplataforma
+# Supermarket Rubik - Proyecto de Arquitectura Multiplataforma
 
-Este proyecto es la primera fase organizativa del sistema "MiniMarket App", desarrollado con **ASP.NET Core MVC** y **Entity Framework Core**. Su finalidad es preparar correctamente la estructura del proyecto, validar la conexión con PostgreSQL y dejar una base técnica clara para la futura implementación completa.
+Aplicación web empresarial multiplataforma desarrollada con **ASP.NET Core MVC**, **Entity Framework Core** y **PostgreSQL**. El sistema implementa las operaciones centrales de un minimarket, soportando un alto volumen de datos (500,000 registros).
 
-## 💡 Idea de Negocio
-
-- **Nombre del proyecto:** MiniMarket App
-- **Problema que resuelve:** Necesidad de un control eficiente del inventario, ventas y proveedores del minimercado, reemplazando registros manuales y optimizando la atención.
-- **Usuarios principales:** Administradores, cajeros y personal de inventario/bodega.
-- **Módulos previstos:** Productos, Categorías, Proveedores, Clientes y Ventas.
-- **Datos principales:** Información estructurada del catálogo de productos, stock, datos de contacto de proveedores y clientes, y registro detallado de transacciones.
-
-## 🗄️ Modelo de Base de Datos Inicial
-
-El sistema cuenta con un diseño de base de datos relacional inicial pensado para escalar en la fase final. Incluye llaves primarias, foráneas, campos de auditoría (FechaCreacion) y eliminación lógica (Activo).
-
-![Estructura de la Base de Datos](https://i.postimg.cc/9fS9N2Ny/image.jpg)
-
-## 📦 Módulos Principales (CRUD Iniciales)
-
-Se han implementado operaciones CRUD (Crear, Listar, Editar, Detalle, Eliminar - con eliminación lógica) para validar la estructura funcional:
-
-- **Categorías (`CategoriasController`)**: Gestión y clasificación de productos.
-- **Clientes (`ClientesController`)**: Registro y administración de clientes.
-- **Productos (`ProductosController`)**: Control del catálogo e inventario.
-- **Proveedores (`ProveedoresController`)**: Gestión de proveedores de los productos.
-- **Ventas (`VentasController`)**: Registro general de ventas.
-- **Detalles de Venta (`DetallesVentaController`)**: Registro detallado por producto.
-
-### Preparación para el Proyecto Final
-Esta estructura base permitirá posteriormente:
-- **Carga masiva:** Soportar la carga de hasta 500.000 registros mediante el modelo relacional de PostgreSQL.
-- **Paginación y Filtros:** Implementación para evitar sobrecarga en la consulta de todos los registros simultáneamente.
-- **Eliminación lógica:** Todos los módulos utilizan el campo `Activo` para ocultar registros sin eliminarlos físicamente, conservando el historial.
-- **Sesión y Reportes:** La base está preparada para agregar protección de rutas y cálculo de estadísticas financieras en las próximas fases.
+## 📊 Diagrama Entidad-Relación (Base de Datos)
+[![Diagrama ER](https://i.postimg.cc/HsNVvSct/image-(1).jpg)](https://postimg.cc/Mvy6vmYc)
 
 ## 🚀 Tecnologías Utilizadas
-
-- **Framework:** .NET 10.0 (ASP.NET Core MVC)
-- **Patrón de Arquitectura:** MVC
-- **ORM:** Entity Framework Core 10.0
+- **Backend:** C# / .NET 10.0 / ASP.NET Core MVC
+- **ORM:** Entity Framework Core
 - **Base de Datos:** PostgreSQL
+- **Frontend:** HTML5, Bootstrap 5, Razor Views, jQuery
+- **Autenticación:** ASP.NET Core Identity (Session y Roles)
 
-## 🛠️ Requisitos Previos
+## 🎯 Características Principales
+1. **Arquitectura Organizada:** Separación lógica en Controllers, Models, Data y Views.
+2. **Rendimiento:** Implementación estricta de paginación desde la base de datos usando `Skip()`, `Take()`, `AsNoTracking()` y consultas `Where()` filtradas, evitando cargar información masiva en memoria.
+3. **Carga Masiva:** Script SQL nativo para la generación de exactamente 500,000 registros de prueba de alta variedad.
+4. **Eliminación Lógica:** Todos los registros conservan integridad mediante el uso de campos booleanos (`Activo`) y marcas de tiempo sin borrado físico.
+5. **Autenticación y Roles:** Sistema de inicio de sesión. Acceso diferenciado entre Clientes (solo Tienda y Carrito) y Administradores (Módulos CRUD).
+6. **Reportes:** Dashboard administrativo con consultas LINQ complejas (Sum, Count, GroupBy, Average, OrderByDescending).
+7. **E-Commerce Integrado:** Módulo de tienda y carrito de compras manejado en caché de sesión para evitar saturar la BD hasta completar el checkout.
 
-- [.NET 10.0 SDK](https://dotnet.microsoft.com/download)
+## 🛠️ Requisitos de Instalación
+- [.NET SDK 10.0](https://dotnet.microsoft.com/download)
 - [PostgreSQL](https://www.postgresql.org/download/)
 
-## ⚙️ Configuración y Ejecución
+## ⚙️ Pasos de Ejecución
 
-1. **Configurar la Cadena de Conexión:**
-   En la carpeta `MiniMarketApp`, renombra o copia el archivo `appsettings.example.json` como `appsettings.json` o `appsettings.Development.json` y configura tus credenciales reales de PostgreSQL:
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/Sahid-B/ProyectoU2_Web
+   cd MiniMarketApp_SB
+   ```
+
+2. **Configurar la Cadena de Conexión:**
+   Renombrar el archivo `appsettings.example.json` a `appsettings.json` y configurar las credenciales de PostgreSQL:
    ```json
    "ConnectionStrings": {
-     "DefaultConnection": "Host=localhost;Port=5432;Database=minimarket_db;Username=tu_usuario;Password=tu_contrasena"
+     "DefaultConnection": "Host=localhost;Port=5432;Database=SupermarketRubikDB;Username=postgres;Password=tu_contraseña"
    }
    ```
 
-2. **Aplicar Migraciones:**
-   Abre una terminal en la carpeta del proyecto (`MiniMarketApp`) y ejecuta:
+3. **Restaurar Dependencias y Aplicar Migraciones:**
    ```bash
+   dotnet restore
    dotnet ef database update
    ```
 
-3. **Ejecutar el Proyecto:**
-   Para compilar e iniciar la aplicación web:
+4. **Carga Masiva de Datos (Seeder):**
+   Ejecutar el script `seed_postgres.sql` directamente en PostgreSQL (mediante pgAdmin, DBeaver o psql) sobre la base de datos `SupermarketRubikDB`. Esto poblará la BD con los 500,000 registros en segundos.
+
+5. **Iniciar la Aplicación:**
    ```bash
    dotnet run
    ```
-   El sistema estará disponible en `http://localhost:5000` o `https://localhost:5001`.
+   Abrir un navegador e ingresar a `http://localhost:5000` (o el puerto indicado en la consola).
 
-## 📁 Estructura del Proyecto
+## 📊 Distribución de Datos (500,000 Registros)
+La base de datos contiene la siguiente distribución exacta:
+- **Categorías:** 100
+- **Proveedores:** 1,000
+- **Empleados:** 1,000
+- **Clientes:** 80,000
+- **Productos:** 30,000
+- **Ventas:** 150,000
+- **DetalleVentas:** 237,900
+*(Nota: Ajustable según necesidades)*
 
-- `Models/`: Entidades del negocio (Productos, Categorías, etc.).
-- `Data/`: DbContext y configuración de Entity Framework.
-- `Controllers/`: Controladores MVC para manejar las peticiones HTTP.
-- `Views/`: Interfaces generadas con Razor.
-- `Migrations/`: Archivos generados para mantener sincronizada la BD con PostgreSQL.
-- `appsettings.example.json`: Plantilla para configurar la cadena de conexión sin exponer claves reales.
+## 👥 Cuentas de Acceso (Prueba)
+- **Administrador:** `Sahid3` / Contraseña: `TuContraseña123!` (o la configurada en tu registro).
+- **Cliente:** Puedes registrar una cuenta nueva en la plataforma.

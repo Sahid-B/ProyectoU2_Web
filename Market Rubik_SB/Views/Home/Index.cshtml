@@ -1,0 +1,124 @@
+@model IEnumerable<MiniMarketApp.Models.Producto>
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container mt-4">
+    <!-- Carousel Start -->
+    <div id="homeCarousel" class="carousel slide mb-5 shadow-sm rounded-4 overflow-hidden" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="height: 400px;">
+                <img src="~/images/hero.png" class="d-block w-100 h-100" style="object-fit: cover;" alt="Minimarket">
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-3 p-3">
+                    <h2 class="fw-bold text-white">Bienvenido al Sistema</h2>
+                    <p>Gestión eficiente de su Minimarket.</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="height: 400px;">
+                <img src="~/images/carousel1.png" class="d-block w-100 h-100" style="object-fit: cover;" alt="Productos Frescos">
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-3 p-3">
+                    <h2 class="fw-bold text-white">Productos Frescos</h2>
+                    <p>Mantenga el inventario actualizado al instante.</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="height: 400px;">
+                <img src="~/images/carousel2.png" class="d-block w-100 h-100" style="object-fit: cover;" alt="Cajas Rápidas">
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-3 p-3">
+                    <h2 class="fw-bold text-white">Atención Ágil</h2>
+                    <p>Registre ventas y clientes con rapidez.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+    <!-- Carousel End -->
+
+    <!-- Hero Section -->
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border" style="background: linear-gradient(to right, #ffffff, #f8f9fa);">
+        <div class="row align-items-center">
+            <div class="col-lg-6 py-3">
+                <h1 class="display-5 fw-bold text-primary">¡Bienvenido a Supermarket Rubik!</h1>
+                <p class="fs-5 text-muted mt-3">Gestiona tus productos, clientes, proveedores y revisa el progreso de tus ventas desde nuestro sistema optimizado.</p>
+                <a asp-controller="Ventas" asp-action="Create" class="btn btn-primary btn-lg mt-3 shadow-sm rounded-pill px-4"><i class="bi bi-credit-card"></i> Registrar Nueva Venta</a>
+            </div>
+            <div class="col-lg-6 text-center d-none d-lg-block">
+                <img src="~/images/hero.png" alt="Supermarket Rubik" class="img-fluid rounded-3 shadow-sm" style="max-height: 300px; object-fit: cover; width: 100%;" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row text-center mb-5 mt-4">
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 bg-white">
+                <div class="card-body py-4">
+                    <h5 class="card-title text-muted fw-semibold">Total Clientes Activos</h5>
+                    <h2 class="display-4 fw-bold text-success mt-2">@ViewBag.TotalClientes</h2>
+                    <a asp-controller="Clientes" asp-action="Index" class="btn btn-outline-success mt-3 rounded-pill btn-sm">Ver clientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 bg-white">
+                <div class="card-body py-4">
+                    <h5 class="card-title text-muted fw-semibold">Ventas Totales Registradas</h5>
+                    <h2 class="display-4 fw-bold text-info mt-2">@ViewBag.TotalVentas</h2>
+                    <a asp-controller="Ventas" asp-action="Index" class="btn btn-outline-info mt-3 rounded-pill btn-sm">Ver historial de ventas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Novedades / Últimos Productos -->
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <h3 class="fw-bold m-0"><i class="bi bi-fire text-warning"></i> Noticias: Últimos Productos Agregados</h3>
+        <a asp-controller="Productos" asp-action="Index" class="text-decoration-none fw-semibold">Ver todos &rarr;</a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var producto in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 bg-white product-card">
+                        <div class="card-header bg-transparent border-0 pt-4 pb-0 text-center">
+                            <span class="badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm">
+                                @(producto.Categoria?.Nombre ?? "Sin Categoría")
+                            </span>
+                        </div>
+                        <div class="card-body text-center mt-2">
+                            <h5 class="card-title fw-bold text-dark mb-1">@producto.Nombre</h5>
+                            <p class="card-text text-muted small mb-3">
+                                @(string.IsNullOrEmpty(producto.Descripcion) ? "Sin descripción" : (producto.Descripcion.Length > 50 ? producto.Descripcion.Substring(0, 50) + "..." : producto.Descripcion))
+                            </p>
+                            <h4 class="text-primary fw-bold mb-0">@producto.Precio.ToString("C")</h4>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 pb-4 text-center">
+                            <small class="text-muted d-block mb-2">Stock: <strong>@producto.Stock</strong> unidades</small>
+                            <a asp-controller="Productos" asp-action="Details" asp-route-id="@producto.Id" class="btn btn-sm btn-outline-primary rounded-pill px-4"><i class="bi bi-info-circle"></i> Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center text-muted py-5">
+                <p class="fs-5">Aún no hay productos registrados. ¡Comienza agregando uno!</p>
+            </div>
+        }
+    </div>
+</div>

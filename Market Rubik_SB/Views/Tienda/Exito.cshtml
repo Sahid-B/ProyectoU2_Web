@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "¡Compra Exitosa!";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 text-center">
+            <div class="card shadow border-0 rounded-4 p-5 text-center bg-white">
+                <div class="mb-4">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle" style="width: 100px; height: 100px;">
+                        <i class="bi bi-check-lg" style="font-size: 4rem;"></i>
+                    </div>
+                </div>
+                <h2 class="fw-bold text-success mb-3">¡Pago Procesado!</h2>
+                <p class="text-muted fs-5 mb-4">
+                    Tu compra se ha realizado con éxito. El estado de tu pedido es <strong>Pendiente</strong> de envío.
+                </p>
+                <div class="bg-light rounded-3 p-3 mb-4 d-inline-block">
+                    <span class="text-secondary me-2">Número de Orden interna:</span>
+                    <strong class="text-dark fs-5">#@ViewBag.VentaId</strong>
+                </div>
+                <div>
+                    <a asp-action="Index" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
+                        <i class="bi bi-shop me-2"></i> Volver a la Tienda
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

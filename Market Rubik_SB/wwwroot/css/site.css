@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 60px;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
+  color: #2c3e50;
+}
+
+/* Custom modern aesthetics */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(37, 140, 251, 0.25);
+  border-color: #258cfb;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    border: 1px solid #dee2e6;
+}
+
+/* Navbar gradient */
+.navbar {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Navbar links styling */
+.nav-link.custom-hover {
+    transition: all 0.25s ease;
+    border-radius: 20px;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.2rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.nav-link.custom-hover:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    opacity: 1 !important;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
